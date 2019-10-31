@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+
+
+{% block content%}
+<header class="masthead" style="background-image: url(https://infoglen.com/wp-content/uploads/2017/03/blog.jpg); background-size: cover; height: 100vh;">
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="site-heading">
+            <span class="subheading"><i class="fas fa-quote-left"></i> <em>{{quote.quote}}</em> <i class="fas fa-quote-right"></i></span>
+            <h2>- {{quote.author}}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+ </header>
+
+
+<!-- displaying posts -->
+<div class="container">
+<div class="row">
+  <div class="col-md-8 land">
+    <h2 class="text-center">What if all we do is just talk and express ourselves?</h2>
+    {% for blog in blogs.items %}
+          <div class="container bg mb-2">
+              <hr>
+              <div class="row ">
+                  <div class="col-md-2 ">
+                          <!-- <img class="rounded-circle blog-img mr-10" src="{{url_for('static', filename='photos/' + blog.user.profile_pic_path)}}" style="width: 80px;">
+                          <p id="usern"><a href="{{url_for('main.user_post',username=blog.user.username )}}"><span  style="color: blue"><strong>{{blog.user.username}}</strong></span> </a> </p>  -->
+                  </div>
+                  <div class="col-md-10 pr-4 d-justify userblog">
+                      
+                     <h3>{{blog.title}}</h3>
+                      <p>{{blog.content }}</p>
+                      <p>Posted on : {{blog.posted.strftime('%d-%m-%Y')}}</p>
+                      
+                      <span><p class="btn btn-success">Comment</p></span>
+                      <span><p class="btn btn-primary">Like</p></span>
+                      <span><p class="btn btn-danger">Delete post</p></span>
+                  </div>
+              </div> 
+              <hr>
+          </div>
+             {% endfor %}
+             {% for page_num in blogs.iter_pages(left_edge = 1, right_edge = 1, left_current=1, right_current = 2) %}
+{% if page_num %}
+    {% if blogs.page == page_num %}
+        <a href="{{url_for('main.index',page = page_num)}}" class="btn btn-sm btn-info mb-2">{{ page_num }}</a>
+    {% else%}
+    <a href="{{url_for('main.index',page = page_num)}}" class="btn btn-sm btn-outline-info mb-2">{{ page_num }}</a>
+    {% endif %}
+{% else%}
+    ...
+{% endif %}
+{% endfor %}
+</div>
+
+
+{% endblock %}
